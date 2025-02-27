@@ -1,0 +1,116 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding-top: 100px; 
+    background: #f8f8f8;
+}
+
+/* HEADER */
+header {
+    background: #333333;
+    color: #fff;
+    padding: -10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+/* MENU ICON (THREE LINES BUTTON) */
+.menu-icon {
+    font-size: 28px;
+    cursor: pointer;
+    padding: 10px;
+    position: auto;
+    right:auto ;
+    top: 0px;
+    z-index: 1000;
+}
+
+/* NAVIGATION MENU */
+nav {
+    position: fixed;
+    top: 0;
+    right: -250px;
+    width: 200px;
+    height: 100%;
+    background: #222;
+    color: white;
+    padding-top: 60px;
+    transition: 0.3s ease-in-out;
+    z-index: 999;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    padding: 15px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    display: block;
+}
+
+/* SHOW MENU */
+nav.active {
+    right: 0;
+}
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: black;
+    z-index: 1000; /* High z-index to keep it above */
+}
+
+.content {
+    position: relative;
+    z-index: 1; /* Ensure it's not overlapping wrongly */
+}
+.header {
+    height: 60px; /* Set a specific height */
+    line-height: 60px; /* Center the text vertically */
+}
+
+
+/* IMAGE GALLERY */
+.image-gallery {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.image-gallery img {
+    width: 30%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+}
+
+.image-gallery img:hover {
+    transform: scale(1.1);
+}
+
+/* VIDEO SECTION */
+.video-section {
+    margin-top: 20px;
+}
+
+.video-section video {
+    width: 80%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
