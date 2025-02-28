@@ -1,44 +1,88 @@
-// TOGGLE MENU
 function toggleMenu() {
-    document.getElementById("mobile-menu").classList.toggle("active");
-}
+    var sidebar = document.getElementById("sidebar");
+    var overlay = document.getElementById("menu-overlay");
 
-// CLOSE MENU WHEN CLICKING A LINK
-function closeMenu() {
-    document.getElementById("mobile-menu").classList.remove("active");
-}
-
-// AUTO-SLIDESHOW
-let slideIndex = 0;
-const slides = document.querySelectorAll(".image-gallery img");
-
-function showSlides() {
-    for (let i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";
-    }
-    slideIndex++;
-    if (slideIndex > slides.length) {
-        slideIndex = 1;
-    }
-    slides[slideIndex - 1].style.display = "block";
-    setTimeout(showSlides, 3000);
-}
-
-// START SLIDESHOW
-document.addEventListener("DOMContentLoaded", showSlides);
-
-// VIDEO PLAY ONLY WHEN SCROLLED INTO VIEW
-const video = document.getElementById("danceVideo");
-
-function checkVideoInView() {
-    const rect = video.getBoundingClientRect();
-    if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
-        video.play();
+    if (sidebar.style.left === "0px") {
+        sidebar.style.left = "-250px";
+        overlay.classList.remove("active"); // Hide overlay
     } else {
-        video.pause();
+        sidebar.style.left = "0px";
+        overlay.classList.add("active"); // Show overlay
     }
 }
 
-// LISTEN FOR SCROLL EVENTS
-document.addEventListener("scroll", checkVideoInView);
-document.addEventListener("DOMContentLoaded", checkVideoInView);
+
+// SHOW SECTIONS
+function showSection(sectionId) {
+    document.querySelectorAll(".section").forEach(section => section.classList.remove("active"));
+    document.getElementById(sectionId).classList.add("active");
+
+    // Close menu after clicking a section button
+    setTimeout(() => {
+        document.getElementById("sidebar").style.left = "-250px";
+        document.getElementById("menu-content").style.display = "none"; // Hide menu content
+        startAnimation();
+        playVideos();
+    }, 500);
+}
+
+// CLOSE MENU WHEN CLICKING OUTSIDE
+document.addEventListener("click", function (event) {
+    var sidebar = document.getElementById("sidebar");
+    var menuIcon = document.querySelector(".menu-icon");
+
+    if (!sidebar.contains(event.target) && !menuIcon.contains(event.target)) {
+        sidebar.style.left = "-250px";
+        document.getElementById("menu-content").style.display = "none"; // Hide menu content
+        startAnimation();
+        playVideos();
+    }
+});
+
+// IMAGE SLIDESHOW ANIMATION
+let images = document.querySelectorAll(".image-gallery img");
+let index = 0;
+let interval;
+
+// Function to show next image with animation
+function showNextImage() {
+    images.forEach((img, i) => img.classList.remove("active"));
+    images[index].classList.add("active");
+    index = (index + 1) % images.length;
+}
+
+// Start Image Animation
+function startAnimation() {
+    interval = setInterval(showNextImage, 3000);
+}
+
+// Stop Image Animation
+function stopAnimation() {
+    clearInterval(interval);
+}
+
+// Initial Setup
+images[0].classList.add("active");
+startAnimation();
+
+// VIDEO PLAY/PAUSE HANDLING
+let videos = document.querySelectorAll("video");
+
+function pauseVideos() {
+    videos.forEach(video => video.pause());
+}
+
+function playVideos() {
+    videos.forEach(video => {
+        if (!video.paused) {
+            video.play(); // Play only if it was playing before
+        }
+    });
+}
+
+// PREVENT VIDEOS FROM AUTO-PLAYING WHEN MENU BUTTONS CLICKED
+document.querySelectorAll("#menu-content button").forEach(button => {
+    button.addEventListener("click", function () {
+        videos.forEach(video => video.pause()); // Pause all videos
+    });
+});
